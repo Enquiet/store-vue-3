@@ -1,20 +1,36 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <Header />
+    <router-view />
+    <Footer />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from '@/components/TheHeader.vue'
+import Footer from '@/components/TheFooter.vue'
+import { mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  components: { Header, Footer },
+  created () {
+    const saveUserKey = localStorage.getItem('userAccessKey')
+    if (saveUserKey) {
+      this.updateAccessKey(saveUserKey)
+    }
+
+    this.loaderCartProduct()
+  },
+  methods: {
+    ...mapActions(['loaderCartProduct']),
+    ...mapMutations(['updateAccessKey'])
   }
 }
+
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
